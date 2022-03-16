@@ -28,6 +28,8 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
     path('api/v1/caps/', include('caps.urls')),
     path('api/v1/orders/', include('orders.urls')),
+    path('api/v1/', include('baner.urls')),
+    path('api/v1/', include('indigit.urls')),
 ]
 
 urlpatterns += doc_url

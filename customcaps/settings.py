@@ -51,6 +51,8 @@ INSTALLED_APPS = [
 
     'caps',
     'orders',
+    'baner',
+    'indigit',
 ]
 
 

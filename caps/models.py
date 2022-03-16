@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, User
 from datetime import datetime
 
+from baner.models import Baner
+
 class Brand(models.Model):
     """категория и названия брендов"""
     name = models.CharField("Бренд", max_length=50)
@@ -45,6 +47,7 @@ class Caps(models.Model):
     is_available = models.BooleanField(default=True, verbose_name="в Наличии")
     available = AvailableManager()
     new_price = models.IntegerField(null=True, blank=True)
+    in_baner = models.ForeignKey(Baner, null=True, blank=True, on_delete=models.SET_NULL, related_name='caps')
 
     created_data = models.DateField(auto_now_add=True)
 

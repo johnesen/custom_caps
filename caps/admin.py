@@ -37,7 +37,7 @@ class CapsAdmin(admin.ModelAdmin):
             "fields": (("description", "size"),)
         }),
         ("Чекбоксы", {
-            "fields": (("is_available",),) 
+            "fields": (("is_available",), 'in_baner') 
         }),
         
     )
