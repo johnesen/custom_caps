@@ -44,7 +44,7 @@ class CapsCreateView(generics.CreateAPIView):
     queryset = Caps.available.all()
     serializer_class = CapsCreateViewSerializers
     permission_classes = [
-        permissions.IsAdminUser, permissions.IsAuthenticated]
+        permissions.IsAdminUser, permissions.AllowAny]
 
 
 class BrandListView(generics.ListAPIView):
@@ -54,7 +54,7 @@ class BrandListView(generics.ListAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandListSerializer
     permission_classes = [
-        permissions.IsAdminUser, permissions.IsAuthenticatedOrReadOnly]
+        permissions.IsAdminUser, permissions.AllowAny]
 
 
 class BrandCapListAPIView(ListModelMixin, GenericAPIView): 
@@ -64,7 +64,7 @@ class BrandCapListAPIView(ListModelMixin, GenericAPIView):
     # queryset = Caps.available.all()
     serializer_class = CapsListViewSerializers
     permission_classes = [
-        permissions.IsAdminUser, permissions.IsAuthenticatedOrReadOnly]
+        permissions.IsAdminUser, permissions.AllowAny]
     def get_queryset(self):
         slug_url = self.kwargs['slug_url']
         return Caps.available.filter(brand__slug=slug_url)
@@ -102,7 +102,7 @@ class CapDetailAPIView(generics.RetrieveAPIView):
     queryset = Caps.available.all()
     serializer_class = CapsDetailSerializer
     permission_classes = [
-        permissions.IsAdminUser, permissions.IsAuthenticatedOrReadOnly]
+        permissions.IsAdminUser, permissions.AllowAny]
 
 class BasketListView(generics.ListAPIView):
     """
