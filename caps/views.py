@@ -30,8 +30,7 @@ class CapsListView(generics.ListAPIView):
     """
     queryset = Caps.available.all()
     serializer_class = CapsListViewSerializers
-    permission_classes = [
-        permissions.IsAdminUser, permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['name', 'brand__name', 'price', 'brand__name']
     ordering_fields = 'price created_data'.split()
