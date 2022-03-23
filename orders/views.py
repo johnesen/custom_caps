@@ -10,6 +10,7 @@ class OrderListView(generics.ListAPIView):
     """
     queryset = OrderItem.objects.all()
     serializer_class = OrderListSerializer
+    permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
 
 class OrderDetView(generics.RetrieveAPIView):
     """
@@ -18,7 +19,7 @@ class OrderDetView(generics.RetrieveAPIView):
     queryset = OrderItem.objects.all()
     serializer_class = OrderDetailViewSerializer
 
-    # permission_classes = [permissions.IsAdminUsers, permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUsers, permissions.IsAuthenticated]
 
 class OrderItemCreateView(generics.CreateAPIView):
     """
@@ -34,4 +35,4 @@ class OrderCreateView(generics.CreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderCreateSerializer
 
-    # permission_classes = [permissions.IsAdminUsers, permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUsers, permissions.IsAuthenticated]
