@@ -10,3 +10,4 @@ class BanerListView(generics.ListAPIView):
     """
     queryset = Baner.objects.all()
     serializer_class = serializers.BanerViewSerialiser
+    
