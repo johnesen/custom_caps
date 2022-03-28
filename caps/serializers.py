@@ -15,6 +15,7 @@ class CapsListViewSerializers(serializers.ModelSerializer):
         model = Caps
         fields = 'id brand name price new_price capsimage is_available'.split()
 
+    
 
 
 

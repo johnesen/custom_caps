@@ -20,6 +20,7 @@ from rest_framework.mixins import ListModelMixin
 from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
+from rest_framework import pagination
 
 
 
@@ -35,6 +36,7 @@ class CapsListView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['name', 'brand__name', 'price', 'brand__name']
     ordering_fields = 'price created_data'.split()
+    pagination_lcass = pagination.PageNumberPagination
 
 
 class CapsCreateView(generics.CreateAPIView):
