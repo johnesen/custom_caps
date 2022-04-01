@@ -54,11 +54,7 @@ class CapsImageSerializer(serializers.ModelSerializer):
 class CapsDetailSerializer(serializers.ModelSerializer):
     brand = serializers.SlugRelatedField(slug_field="name", read_only=True)
     size = SizesListSerializer(read_only=True, many=True)
-<<<<<<< HEAD
     capsimage = CapsImageSerializer(many=True   )
-=======
-    capsimage = CapsImageSerializer(many=True, read_only=True)
->>>>>>> 529881df4cd524af726a0337ed1234668976e2e4
 
     class Meta:
         model = Caps
