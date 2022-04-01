@@ -15,12 +15,12 @@ services:
     build: .
     restart: always
     command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic
-        --no-input && gunicorn -b 0.0.0.0:8000 customcaps.wsgi --reload"
+        --no-input && gunicorn -b 0.0.0.0:8002 customcaps.wsgi --reload"
     volumes:
       - .:/app
       - ./static:/static
     ports:
-      - "8000:8000"
+      - "8002:8002"
     depends_on:
       - postgres_db
 

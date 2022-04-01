@@ -1,3 +1,5 @@
+from dataclasses import field
+from pyexpat import model
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth.models import User
@@ -54,13 +56,19 @@ class SizesListSerializer(serializers.ModelSerializer):
         fields = 'id value'.split()
 
 
+class CapsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CapsImage
+        fields = ['id', 'image']
+
 class CapsDetailSerializer(serializers.ModelSerializer):
     brand = serializers.SlugRelatedField(slug_field="name", read_only=True)
     size = SizesListSerializer(read_only=True, many=True)
+    capsimage = CapsImageSerializer(many=True)
 
     class Meta:
         model = Caps
-        fields = '__all__'
+        fields = 'brand name price size description is_available new_price created_data capsimage'.split()
 
 
 class BasketListSerializer(serializers.ModelSerializer):
