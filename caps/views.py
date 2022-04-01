@@ -5,12 +5,11 @@ from rest_framework.views import APIView
 from rest_framework import generics, permissions
 from .serializers import (
     BrandListSerializer,
-    CapsListViewSerializers, 
-    CapsCreateViewSerializers, 
+    CapsListViewSerializers,
     UserCapsFavoriteSerializer,
     FavouriteSerializer,
     CapsDetailSerializer,
-    BasketListSerializer, 
+    BasketListSerializer,
     BasketDetailSerializer
 )
 from django_filters.rest_framework import DjangoFilterBackend
@@ -37,16 +36,6 @@ class CapsListView(generics.ListAPIView):
     search_fields = ['name', 'brand__name', 'price', 'brand__name']
     ordering_fields = 'price created_data'.split()
     pagination_lcass = pagination.PageNumberPagination
-
-
-class CapsCreateView(generics.CreateAPIView):
-    """
-        ciews for CREATE CAP
-    """
-    queryset = Caps.available.all()
-    serializer_class = CapsCreateViewSerializers
-    permission_classes = [
-        permissions.AllowAny]
 
 
 class BrandListView(generics.ListAPIView):
