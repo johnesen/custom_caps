@@ -17,16 +17,6 @@ class CapsListViewSerializers(serializers.ModelSerializer):
         model = Caps
         fields = 'id brand name price new_price capsimage is_available'.split()
 
-    
-
-
-
-class CapsCreateViewSerializers(serializers.ModelSerializer):
-
-    brand = serializers.SlugRelatedField(slug_field="name", read_only=True)
-    class Meta:
-        model = Caps
-        fields = 'id brand name price new_price is_available'.split()
 
 class BrandListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -46,7 +36,7 @@ class UserCapsFavoriteSerializer(serializers.ModelSerializer):
 class FavouriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserCapsFavorite
-        fields = ('id', 'user', 'caps', 'is_favorite')
+        fields = ('id', 'user', 'caps', 'is_favorite',)
 
 
 
@@ -64,7 +54,11 @@ class CapsImageSerializer(serializers.ModelSerializer):
 class CapsDetailSerializer(serializers.ModelSerializer):
     brand = serializers.SlugRelatedField(slug_field="name", read_only=True)
     size = SizesListSerializer(read_only=True, many=True)
+<<<<<<< HEAD
     capsimage = CapsImageSerializer(many=True   )
+=======
+    capsimage = CapsImageSerializer(many=True, read_only=True)
+>>>>>>> 529881df4cd524af726a0337ed1234668976e2e4
 
     class Meta:
         model = Caps
