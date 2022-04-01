@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class CapsImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = CapsImage
-        fields = ['image']
+        fields = ['id', 'image']
 
 class CapsListViewSerializers(serializers.ModelSerializer):
 
@@ -44,12 +44,6 @@ class SizesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sizes
         fields = 'id value'.split()
-
-
-class CapsImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CapsImage
-        fields = ['id', 'image']
 
 class CapsDetailSerializer(serializers.ModelSerializer):
     brand = serializers.SlugRelatedField(slug_field="name", read_only=True)
