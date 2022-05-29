@@ -1,6 +1,6 @@
 from customcaps.utils import get_filename
 import os
-HOST_OF_SERVER = 'http://159.89.2.247:8003'
+HOST_OF_SERVER = 'http://localhost:8003'
 
 
 USERS_UPLOAD_DIR = 'user/photo'

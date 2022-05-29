@@ -23,7 +23,7 @@ from .models import Basket, User
 from .utils import Util
 from .serializers import (
     BasketSerializer,
-    EmailVerificationSerializer,
+    # EmailVerificationSerializer,
     LoginSerializer,
     RegistrationSerializer,
     LogOutRefreshTokenSerializer,
@@ -63,13 +63,13 @@ class RegistrationAPIView(generics.GenericAPIView):
         user_data = serializers.data
         user = User.objects.get(email=user_data['email'])
         token = RefreshToken.for_user(user).access_token
-        abs_url = f'{HOST_OF_SERVER}/api/users/verify-email/' + '?token=' + str(token)
-        email_body = f'Hello' \
-                     f'Use this link to activate your email\n ' \
-                     f'The link will be active for 10 minutes \n {abs_url}'
-        data = {'email_body': email_body, 'to_email': user.email,
-            'email_subject': 'Verify your email'}
-        Util.send_email(data)
+        # abs_url = f'{HOST_OF_SERVER}/api/users/verify-email/' + '?token=' + str(token)
+        # email_body = f'Hello' \
+        #              f'Use this link to activate your email\n ' \
+        #              f'The link will be active for 10 minutes \n {abs_url}'
+        # data = {'email_body': email_body, 'to_email': user.email,
+        #     'email_subject': 'Verify your email'}
+        # Util.send_email(data)
         return Response(user_data, status=status.HTTP_201_CREATED)
 
 
@@ -98,31 +98,31 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
         return Response(user, {'success': 'We have  sent you a link to reset your password'}, status=status.HTTP_200_OK)
 
 
-class VerifyEmail(views.APIView):
-    """
-        Verifi Email after signUp
-    """
-    serializer_class = EmailVerificationSerializer
+# class VerifyEmail(views.APIView):
+#     """
+#         Verifi Email after signUp
+#     """
+#     serializer_class = EmailVerificationSerializer
 
-    token_param_config = openapi.Parameter(
-        'token', in_=openapi.IN_QUERY, description='Description', type=openapi.TYPE_STRING)
+#     token_param_config = openapi.Parameter(
+#         'token', in_=openapi.IN_QUERY, description='Description', type=openapi.TYPE_STRING)
 
-    @swagger_auto_schema(manual_parameters=[token_param_config])
-    def get(self, request):
-        token = request.GET.get('token')
+#     @swagger_auto_schema(manual_parameters=[token_param_config])
+#     def get(self, request):
+#         token = request.GET.get('token')
 
-        try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
-            user = User.objects.get(id=payload['user_id'])
-            if not user.is_verified:
-                user.is_verified = True
-                user.is_active = True
-                user.save()
-            return Response({'email': 'Successfully activated'}, status=status.HTTP_200_OK)
-        except jwt.ExpiredSignatureError:
-            return Response({'error': 'Activation Expired'}, status=status.HTTP_400_BAD_REQUEST)
-        except jwt.exceptions.DecodeError:
-            return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+#         try:
+#             payload = jwt.decode(token, settings.SECRET_KEY, algorithms="HS256")
+#             user = User.objects.get(id=payload['user_id'])
+#             if not user.is_verified:
+#                 user.is_verified = True
+#                 user.is_active = True
+#                 user.save()
+#             return Response({'email': 'Successfully activated'}, status=status.HTTP_200_OK)
+#         except jwt.ExpiredSignatureError:
+#             return Response({'error': 'Activation Expired'}, status=status.HTTP_400_BAD_REQUEST)
+#         except jwt.exceptions.DecodeError:
+#             return Response({'error': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginAPIView(generics.GenericAPIView):
     """

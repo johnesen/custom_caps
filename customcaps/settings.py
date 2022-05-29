@@ -47,11 +47,11 @@ REST_FRAMEWORK = {
 
 
 
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'cust0mc4ps@gmail.com'
-EMAIL_HOST_PASSWORD = 'c@stom.c4ps'
-EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'cust0mc4ps@gmail.com'
+# EMAIL_HOST_PASSWORD = 'c@stom.c4ps'
+# EMAIL_PORT = 587
 
 
 AUTH_USER_MODEL = 'users.User'

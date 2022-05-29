@@ -105,15 +105,15 @@ class LoginResponseSerializer(serializers.Serializer):
     refresh = serializers.CharField()
     access = serializers.CharField()
 
-class EmailVerificationSerializer(serializers.ModelSerializer):
-    """
-        Serializer for email verufication
-    """
-    token = serializers.CharField(max_length=555)
+# class EmailVerificationSerializer(serializers.ModelSerializer):
+#     """
+#         Serializer for email verufication
+#     """
+#     token = serializers.CharField(max_length=555)
 
-    class Meta:
-        model = User
-        fields = ['token']
+#     class Meta:
+#         model = User
+#         fields = ['token']
 
 
 class LoginSerializer(serializers.Serializer):
