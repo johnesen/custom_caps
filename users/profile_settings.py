@@ -1,6 +1,6 @@
 from customcaps.utils import get_filename
 import os
-HOST_OF_SERVER = 'http://localhost:8003'
+HOST_OF_SERVER = 'http://caps_back:8003'
 
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google', 'email': 'email'}
 
