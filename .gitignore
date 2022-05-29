@@ -8,7 +8,7 @@ __pycache__/
 *$py.class
 *.so
 
-# users/migrations/*.py
+users/migrations/*.py
 orders/migrations/*.py
 indigit/migrations/*.py
 caps/migrations/*.py
