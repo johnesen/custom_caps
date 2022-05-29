@@ -1,8 +1,6 @@
 from customcaps.utils import get_filename
 import os
-HOST_OF_SERVER = 'http://caps_back:8003'
-
-AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google', 'email': 'email'}
+HOST_OF_SERVER = 'http://159.89.2.247:8003'
 
 
 USERS_UPLOAD_DIR = 'user/photo'
