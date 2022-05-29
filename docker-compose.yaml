@@ -30,17 +30,5 @@ services:
       - caps_db
     links:
       - caps_db
-
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - caps_db
-      - caps_back
-    ports:
-      - "80:80"
-      - "443:443"
-
 volumes:
   postgres_data:
