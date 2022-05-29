@@ -5,33 +5,21 @@ from .serializers import *
 from .models import *
 
 class OrderListView(generics.ListAPIView):
-    """
-        Order list
-    """
     queryset = OrderItem.objects.all()
     serializer_class = OrderListSerializer
     permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
 
 class OrderDetView(generics.RetrieveAPIView):
-    """
-        order deatail view
-    """
     queryset = OrderItem.objects.all()
     serializer_class = OrderDetailViewSerializer
 
     permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticated]
 
 class OrderItemCreateView(generics.CreateAPIView):
-    """
-        Order  item create
-    """
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemCreateSerializer
 
 class OrderCreateView(generics.CreateAPIView):
-    """
-        Order create
-    """
     queryset = Order.objects.all()
     serializer_class = OrderCreateSerializer
 

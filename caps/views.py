@@ -30,13 +30,19 @@ class CapsListView(generics.ListAPIView):
     """
     queryset = Caps.available.all()
     serializer_class = CapsListViewSerializers
-    permission_classes = [
-        permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['name', 'brand__name', 'price', 'brand__name']
     ordering_fields = 'price created_data'.split()
     pagination_lcass = pagination.PageNumberPagination
 
+class CapDetailAPIView(generics.RetrieveAPIView):
+    """ 
+        Детальной информации кепок
+     """
+    queryset = Caps.available.all()
+    serializer_class = CapsDetailSerializer
+    permission_classes = [permissions.AllowAny]
 
 class BrandListView(generics.ListAPIView):
     """
@@ -44,8 +50,7 @@ class BrandListView(generics.ListAPIView):
     """
     queryset = Brand.objects.all()
     serializer_class = BrandListSerializer
-    permission_classes = [
-        permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]
 
 
 class BrandCapListAPIView(ListModelMixin, GenericAPIView): 
@@ -64,55 +69,14 @@ class BrandCapListAPIView(ListModelMixin, GenericAPIView):
         return self.list(request, *args, **kwargs)
 
 
-class FavouriteListView(generics.ListCreateAPIView):
-    """
-        favorite caps list 
-    """
-    queryset = UserCapsFavorite.objects.all()
-    serializer_class = FavouriteSerializer
-    permission_classes = [
-        permissions.IsAdminUser, permissions.IsAuthenticatedOrReadOnly]
 
-    def pre_sve(self, obj):
-        obj.user = self.request.user
-
-
-class FavouriteDeailView(generics.RetrieveUpdateDestroyAPIView):
-    """
-        deatil view cap in favorite
-    """
-    queryset = UserCapsFavorite.objects.all()
-    serializer_class = FavouriteSerializer
-    permission_classes = [
-        permissions.IsAdminUser, permissions.IsAuthenticatedOrReadOnly]
-
-    def pre_sve(self, obj):
-        obj.user = self.request.user
-
-
-class CapDetailAPIView(generics.RetrieveAPIView):
-    """ 
-        Детальной информации кепок
-     """
-    queryset = Caps.available.all()
-    serializer_class = CapsDetailSerializer
-    permission_classes = [
-        permissions.AllowAny]
 
 class BasketListView(generics.ListAPIView):
-    """
-        список корзин
-    """
     queryset = Basket.objects.all()
     serializer_class = BasketListSerializer
-    permission_classes = [
-        permissions.IsAdminUser, permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
 class BasketDetailView(generics.RetrieveAPIView):
-    """
-        детальный вид корзины
-    """
     queryset = Basket.objects.all()
     serializer_class = BasketDetailSerializer
-    permission_classes = [
-        permissions.IsAdminUser, permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]

@@ -25,12 +25,9 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, verbose_name="Заказ", on_delete=models.CASCADE)
-    order_code = models.CharField("Код заказа", max_length=100)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, verbose_name="Статус")
     price = models.DecimalField(max_digits=8, decimal_places=2)
     send_date = models.DateField()
-
-
 
     def __str__(self):
         return f'{self.order}'

@@ -40,7 +40,7 @@ class Caps(models.Model):
     """
     brand = models.ForeignKey(Brand, verbose_name="Имя бренда", on_delete=models.CASCADE, null=True)
     name = models.CharField("Названия", max_length=250)
-    price = models.IntegerField()
+    price = models.IntegerField("цена")
     size = models.ManyToManyField(Sizes, verbose_name="Размер", related_name='sizes')
     description = models.TextField("Описания")
     is_available = models.BooleanField(default=True, verbose_name="в Наличии")
@@ -58,22 +58,9 @@ class Caps(models.Model):
         verbose_name_plural = "Кепки"
 
 
-class UserCapsFavorite(models.Model):
-    user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE, related_name='favourites')
-    caps = models.ForeignKey(Caps, verbose_name="Кепки", on_delete=models.CASCADE)
-    is_favorite = models.BooleanField("Избранные", default=True)
-
-    class Meta:
-        verbose_name = 'Избранный'
-        verbose_name_plural = 'Избранные'
-
-    # def __str__(self):
-    #     return f'{self.caps}, {self.user.username}'
-
-
 class Basket(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    item = models.ForeignKey(Caps, on_delete=models.CASCADE, null=True, blank=True)
+    item = models.ForeignKey(Caps, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     size = models.ForeignKey(Sizes, on_delete=models.CASCADE)
     quantity = models.IntegerField(null=False)
     created_at = models.DateTimeField(auto_now_add=True)
