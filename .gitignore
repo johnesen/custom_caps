@@ -1,12 +1,19 @@
-/user_profile/
-
-# Byte-compiled / optimized / DLL files
+.idea
+venv
+.env
+static
+media
 __pycache__/
 *.py[cod]
 *$py.class
-
-# C extensions
 *.so
+
+users/migrations/*.py
+orders/migrations/*.py
+indigit/migrations/*.py
+caps/migrations/*.py
+baner/migrations/*.py
+
 
 # Distribution / packaging
 .Python

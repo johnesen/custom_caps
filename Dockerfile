@@ -1,10 +1,10 @@
-FROM python:3.9
+FROM python:latest
 
 RUN mkdir /app
 WORKDIR /app/
 
-COPY req.txt .
+COPY requirements.txt .
 
-RUN pip install -r req.txt
+RUN pip install -r requirements.txt
 
 COPY . /app

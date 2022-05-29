@@ -6,15 +6,12 @@ from .yasg import urlpatterns as doc_url
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.authtoken')),
-    path('auth/', include('djoser.urls.jwt')),
-    path('api/v1/caps/', include('caps.urls')),
-    path('api/v1/orders/', include('orders.urls')),
-    path('api/v1/', include('baner.urls')),
-    path('api/v1/', include('indigit.urls')),
+    path('nurjon/', admin.site.urls),
+    path('api/', include('caps.urls')),
+    path('api/', include('orders.urls')),
+    path('api/', include('baner.urls')),
+    path('api/', include('indigit.urls')),
+    path('api/', include('users.urls')),
 ]
 
 urlpatterns += doc_url

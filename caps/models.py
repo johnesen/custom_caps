@@ -1,11 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, User
-from datetime import datetime
+from customcaps.utils import get_filename, compress_image
+import os
+from copy import deepcopy
 
 from baner.models import Baner
 
 class Brand(models.Model):
-    """категория и названия брендов"""
     name = models.CharField("Бренд", max_length=50)
     icon = models.FileField("Иконка бренда", upload_to='brand_icon/')
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
@@ -19,7 +20,6 @@ class Brand(models.Model):
 
 
 class Sizes(models.Model):
-    """размеры"""
     value = models.CharField("Значение", max_length=2)
 
     def __str__(self):
@@ -58,29 +58,15 @@ class Caps(models.Model):
         verbose_name_plural = "Кепки"
 
 
-class Basket(models.Model):
-    item = models.ForeignKey(Caps, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    size = models.ForeignKey(Sizes, on_delete=models.CASCADE)
-    quantity = models.IntegerField(null=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+USERS_UPLOAD_DIR = 'user/photo'
 
-    def __str__(self):
-        return "{} - {} - {} - {} - {}".format(self.user,
-                                               self.item,
-                                               self.quantity,
-                                               self.created_at,
-                                               self.updated_at)
-
-    class Meta:
-        verbose_name = "Корзина"
-        verbose_name_plural = "Корзина"
+def users_photo_upload_to(instance, filename):
+    new_filename = get_filename(filename)
+    return os.path.join(USERS_UPLOAD_DIR, new_filename)
 
 
 class CapsImage(models.Model):
-    """Фотки с кепками"""
-    image = models.ImageField("Изображение", upload_to="caps_foto/")
+    image = models.ImageField("Изображение", upload_to=users_photo_upload_to)
     caps = models.ForeignKey(Caps, verbose_name="Кепки", on_delete=models.CASCADE, related_name="capsimage")
 
     def __str__(self):
@@ -89,3 +75,13 @@ class CapsImage(models.Model):
     class Meta:
         verbose_name = "Фотографии кепок"
         verbose_name_plural = "Фотографии кепок"
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.photo_ = deepcopy(self.photo)
+
+    def save(self, *args, **kwargs):
+        if self.photo and self.photo != self.photo_:
+            self.photo = compress_image(self.photo, is_medium_thumbnail=True, quality=80)
+        super().save(*args, **kwargs)

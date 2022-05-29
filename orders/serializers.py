@@ -9,38 +9,9 @@ class StatusSerializer(serializers.ModelSerializer):
         model = Status
         fields = ["status"]
 
-class OrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = ["order_date"]
-
-class OrderDetailSeralizer(serializers.ModelSerializer):
+class OrderSeralizer(serializers.ModelSerializer):
+    status = StatusSerializer(read_only=True)
     basket = BasketDetailSerializer(read_only=True)
     class Meta:
         model = Order
-        fields = ['basket', 'order_date']
-
-class OrderListSerializer(serializers.ModelSerializer):
-    order = OrderSerializer(read_only=True)
-    class Meta:
-        model = OrderItem
-        fields = ["id", "order_code", "status", "order"]
-
-
-class OrderDetailViewSerializer(serializers.ModelSerializer):
-    status = serializers.SlugRelatedField(slug_field='status', read_only=True)
-    order = OrderDetailSeralizer(read_only=True)
-    class Meta:
-        model = OrderItem
-        fields = ['id', 'price', 'send_date', 'order', 'order_code','status']
-
-
-class OrderCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = ['basket']
-
-class OrderItemCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderItem
-        fields = 'order_code order status price send_date'.split()
+        fields = ['id', 'basket', 'order_date', 'price', 'send_date','status']

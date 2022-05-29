@@ -6,7 +6,6 @@ class BrandAdmin(admin.ModelAdmin):
     list_display = 'id name'.split()
     list_display_links = ('name',)
     prepopulated_fields = {"slug": ('name',)}
-    
 
 @admin.register(Sizes)
 class SizesAdmin(admin.ModelAdmin):
@@ -17,7 +16,11 @@ class SizesAdmin(admin.ModelAdmin):
 class BasketAdmin(admin.ModelAdmin):
     pass
 
-
+class ImageInlineAdmin(admin.TabularInline):
+    model = CapsImage
+    fields = []
+    extra = 0
+    max_num = 6
 
 @admin.register(Caps)
 class CapsAdmin(admin.ModelAdmin):
@@ -28,6 +31,7 @@ class CapsAdmin(admin.ModelAdmin):
     save_on_top = True
     save_as = True
     list_editable = ["is_available"]
+    inlines = [ImageInlineAdmin]
     
     fieldsets = (
         ("Главная информация", {
@@ -42,14 +46,3 @@ class CapsAdmin(admin.ModelAdmin):
         
     )
     
-
-@admin.register(UserCapsFavorite)
-class FavBasAdmin(admin.ModelAdmin):
-    list_display = ['user', 'is_favorite']
-    list_editable = ['is_favorite']
-    # list_display_links = ['']
-
-@admin.register(CapsImage)
-class CapsImageAdmin(admin.ModelAdmin):
-    list_display = ['caps']
-    list_display_links = ['caps']
