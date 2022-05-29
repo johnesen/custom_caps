@@ -140,8 +140,8 @@ class LoginAPIView(generics.GenericAPIView):
         if not user:
             raise exceptions.AuthenticationFailed()
         log(request, user)
-        if request.user.is_verified == False:
-            raise UserNotVerified()
+        # if request.user.is_verified == False:
+        #     raise UserNotVerified()
         return response.Response(data=get_login_response(user, request))
 
 class UsersView(mixins.RetrieveModelMixin,
