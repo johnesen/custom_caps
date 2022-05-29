@@ -1,7 +1,5 @@
-from mmap import MADV_NOSYNC
-from .models import User, Basket
-from . import profile_exceptions
-from caps.serializers import SizesSerializer, CapsSerializer
+from caps.models import Caps
+from caps.serializers import CapsSerializer
 from rest_framework import serializers, exceptions
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
@@ -10,6 +8,22 @@ from django.utils.http import urlsafe_base64_decode
 
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from rest_framework.exceptions import AuthenticationFailed
+
+from .models import User, Basket
+from . import profile_exceptions
+from orders.serializers import OrderSeralizer
+from orders.models import Order
+
+
+
+class LisrUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'phone', 'date_joined', 'last_active', 'photo', 'first_name', 'last_name',)
+        read_only_fields = ('date_joined', 'last_active')
+
+
 
 class PasswordField(serializers.CharField):
     def __init__(self, *args, **kwargs):
@@ -20,21 +34,31 @@ class PasswordField(serializers.CharField):
 
 
 class BasketSerializer(serializers.ModelSerializer):
-    item = CapsSerializer(read_only=True)
+    # item = CapsSerializer(read_only=True)
     class Meta:
         model = Basket
-        fields = ['id', 'item', 'quantity', 'created_at', 'updated_at']
+        fields = ['id', 'item', 'user', 'quantity', 'created_at', 'updated_at']
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request_user = self.context['request'].user
+        if data['user'] == request_user.id:
+            return data
 
 class UserSerializer(serializers.ModelSerializer):
     """
         serializer for putput users data to user self
     """
+    orders = OrderSeralizer(many=True)
     basket = BasketSerializer(many=True)
+    favourites = CapsSerializer(many=True)
+
     class Meta:
         model = User
-        fields = ('id', 'email', 'phone', 'date_joined', 'last_active', 'photo', 'first_name', 'last_name', 'is_verified', 'basket')
-        read_only_fields = ('date_joined',)
+        fields = ('id', 'username', 'email', 'phone', 'date_joined', 'last_active', 'photo', 'first_name', 'last_name', 'is_verified', 'favourites', 'basket', 'orders')
+        read_only_fields = ('date_joined', 'is_verified', 'last_active')
+    
+
 
 class RegistrationSerializer(serializers.ModelSerializer):
     """
@@ -46,7 +70,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'username,' 'email', 'user_type', 'password', 'password2', 'first_name', 'last_name', 'phone',]
+            'id', 'username', 'email', 'password', 'password2', 'first_name', 'last_name', 'phone',]
 
         extra_kwargs = {
             'password': {'write_only': True}
@@ -96,7 +120,7 @@ class LoginSerializer(serializers.Serializer):
     """
         Serializer for login user
     """
-    username = serializers.CharField(max_lenght=50, required=True, allow_blank=False, allow_null=False)
+    username = serializers.CharField(max_length=50, required=True, allow_blank=False, allow_null=False)
     password = PasswordField(required=True, allow_blank=False, allow_null=False)
 
 class UpdatePasswordSerializer(serializers.Serializer):
@@ -167,5 +191,3 @@ class ResetPasswordSerializer(serializers.ModelSerializer):
             return user
         except Exception as e:
             raise AuthenticationFailed('The reset link is invalid', 401)
-
-        return super().validate(attrs)

@@ -1,11 +1,6 @@
-from caps.models import Caps, Brand, Basket
+from caps.models import Caps, Brand
 from rest_framework import generics, permissions
-from .serializers import (
-    BrandListSerializer,
-    CapsSerializer,
-    BasketListSerializer,
-    BasketDetailSerializer,
-)
+from .serializers import BrandListSerializer, CapsSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import ListModelMixin

@@ -35,9 +35,6 @@ class AvailableManager(models.Manager):
         return super(AvailableManager, self).get_queryset().filter(is_available=True)
 
 class Caps(models.Model):
-    """
-        товар(кепки)
-    """
     brand = models.ForeignKey(Brand, verbose_name="Имя бренда", on_delete=models.CASCADE, null=True)
     name = models.CharField("Названия", max_length=250)
     price = models.IntegerField("цена")
@@ -46,8 +43,6 @@ class Caps(models.Model):
     is_available = models.BooleanField(default=True, verbose_name="в Наличии")
     available = AvailableManager()
     new_price = models.IntegerField(null=True, blank=True)
-    in_baner = models.ForeignKey(Baner, null=True, blank=True, on_delete=models.SET_NULL, related_name='caps')
-
     created_data = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -66,7 +61,7 @@ def users_photo_upload_to(instance, filename):
 
 
 class CapsImage(models.Model):
-    image = models.ImageField("Изображение", upload_to=users_photo_upload_to)
+    photo = models.ImageField("Изображение", upload_to=users_photo_upload_to)
     caps = models.ForeignKey(Caps, verbose_name="Кепки", on_delete=models.CASCADE, related_name="capsimage")
 
     def __str__(self):

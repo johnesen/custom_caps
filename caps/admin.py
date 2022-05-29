@@ -11,14 +11,11 @@ class BrandAdmin(admin.ModelAdmin):
 class SizesAdmin(admin.ModelAdmin):
     list_display = 'id value'.split()
     list_display_links = ('value',)
-    
-@admin.register(Basket)
-class BasketAdmin(admin.ModelAdmin):
-    pass
+
 
 class ImageInlineAdmin(admin.TabularInline):
     model = CapsImage
-    fields = []
+    fields = ['photo']
     extra = 0
     max_num = 6
 
@@ -41,7 +38,7 @@ class CapsAdmin(admin.ModelAdmin):
             "fields": (("description", "size"),)
         }),
         ("Чекбоксы", {
-            "fields": (("is_available",), 'in_baner') 
+            "fields": (("is_available",),) 
         }),
         
     )

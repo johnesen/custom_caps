@@ -1,17 +1,19 @@
 from rest_framework import serializers
-from .models import Status, OrderItem, Order
+from .models import Order
 from caps.models import *
-from caps.serializers import BasketDetailSerializer
+from caps.serializers import CapsSerializer
 
-
-class StatusSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Status
-        fields = ["status"]
 
 class OrderSeralizer(serializers.ModelSerializer):
-    status = StatusSerializer(read_only=True)
-    basket = BasketDetailSerializer(read_only=True)
+    # item = CapsSerializer()
+
     class Meta:
         model = Order
-        fields = ['id', 'basket', 'order_date', 'price', 'send_date','status']
+        fields = ['id', 'item', 'user', 'order_date', 'price', 'send_date', 'status']
+        read_only_fields = ['send_date', 'price', 'status']
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request_user = self.context['request'].user
+        if data['user'] == request_user.id:
+            return data

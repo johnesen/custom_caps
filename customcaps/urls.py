@@ -7,11 +7,11 @@ from .yasg import urlpatterns as doc_url
 
 urlpatterns = [
     path('nurjon/', admin.site.urls),
-    path('api/', include('caps.urls')),
-    path('api/', include('orders.urls')),
-    path('api/', include('baner.urls')),
-    path('api/', include('indigit.urls')),
-    path('api/', include('users.urls')),
+    path('api/caps/', include('caps.urls')),
+    path('api/orders/', include('orders.urls')),
+    path('api/baner/', include('baner.urls')),
+    path('api/digits/', include('indigit.urls')),
+    path('api/users/', include('users.urls')),
 ]
 
 urlpatterns += doc_url

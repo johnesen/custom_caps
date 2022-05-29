@@ -1,13 +1,10 @@
-from dataclasses import field
-from pyexpat import model
 from rest_framework import serializers
 from .models import *
-from django.contrib.auth.models import User
 
 class CapsImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = CapsImage
-        fields = ['id', 'image']
+        fields = ['id', 'photo']
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,7 +17,7 @@ class SizesSerializer(serializers.ModelSerializer):
         fields = 'value'.split()
 
 class CapsSerializer(serializers.ModelSerializer):
-    brand = BrandSerializer(read_only=True, many=True)
+    brand = BrandSerializer(read_only=True)
     size = SizesSerializer(read_only=True, many=True)
     capsimage = CapsImageSerializer(read_only=True, many=True)
 

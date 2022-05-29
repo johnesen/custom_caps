@@ -19,9 +19,10 @@ from django.urls import reverse
 
 
 
-from .models import User
+from .models import Basket, User
 from .utils import Util
 from .serializers import (
+    BasketSerializer,
     EmailVerificationSerializer,
     LoginSerializer,
     RegistrationSerializer,
@@ -31,6 +32,7 @@ from .serializers import (
     UserSerializer,
     LoginResponseSerializer,
     UpdatePasswordSerializer,
+    LisrUserSerializer,
     )
 from .profile_exceptions import UserNotFound, UserNotVerified
 
@@ -61,7 +63,7 @@ class RegistrationAPIView(generics.GenericAPIView):
         user_data = serializers.data
         user = User.objects.get(email=user_data['email'])
         token = RefreshToken.for_user(user).access_token
-        abs_url = f'{HOST_OF_SERVER}/api/v1/users/verify-email/'+ '?token=' + str(token)
+        abs_url = f'{HOST_OF_SERVER}/api/users/verify-email/' + '?token=' + str(token)
         email_body = f'Hello' \
                      f'Use this link to activate your email\n ' \
                      f'The link will be active for 10 minutes \n {abs_url}'
@@ -142,13 +144,17 @@ class LoginAPIView(generics.GenericAPIView):
             raise UserNotVerified()
         return response.Response(data=get_login_response(user, request))
 
-class UsersView(viewsets.ReadOnlyModelViewSet):
+class UsersView(mixins.RetrieveModelMixin,
+                mixins.UpdateModelMixin,
+                mixins.DestroyModelMixin,
+               mixins.ListModelMixin,
+               viewsets.GenericViewSet):
     """
         Just userView
     """
     permission_classes = ()
     authentication_classes = ()
-    serializer_class = UserSerializer
+    serializer_class = LisrUserSerializer
 
     def get_queryset(self):
         return User.objects.all()
@@ -255,3 +261,17 @@ class ResetPasswordAPIView(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'success': True, 'message': 'Password reset success'}, status=status.HTTP_200_OK)
+
+
+class BasketViewset(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.ListModelMixin,
+                   mixins.DestroyModelMixin,
+                   viewsets.GenericViewSet):
+    queryset = Basket.objects.all().order_by('-id')
+    serializer_class = BasketSerializer
+
+    def get_serializer_context(self):
+        context = super(BasketViewset, self).get_serializer_context()
+        context.update({"request": self.request})
+        return context

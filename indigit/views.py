@@ -7,3 +7,4 @@ from .serializers import InDigitViewSerializer
 class IndigitView(generics.ListAPIView):
     queryset = CapsInDigit.objects.all()
     serializer_class = InDigitViewSerializer
+    pagination_class = None 

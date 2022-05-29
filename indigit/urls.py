@@ -3,5 +3,5 @@ from .views import *
 
 
 urlpatterns = [
-    path('indigit/', IndigitView.as_view()),
+    path('', IndigitView.as_view()),
 ]

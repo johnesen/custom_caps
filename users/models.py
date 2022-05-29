@@ -1,5 +1,4 @@
 from copy import deepcopy
-from pyexpat import model
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.validators import validate_email
@@ -13,12 +12,11 @@ from caps.models import Caps
 from .profile_settings import users_photo_upload_to
 
 class UserManager(BaseUserManager):
-    def create_superuser(self, email, password):
-        user = self.model(email=email)
+    def create_superuser(self, username, password):
+        user = self.model(username=username)
         user.set_password(password)
         user.is_superuser = True
         user.is_verified = True
-        user.user_type = None
         user.save()
         return user
 

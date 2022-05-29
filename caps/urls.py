@@ -3,7 +3,7 @@ from .views import *
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register('caps', CapsViewset, 'caps')
+router.register('', CapsViewset, 'caps')
 
 urlpatterns = [
     path('', include(router.urls)),

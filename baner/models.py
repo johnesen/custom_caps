@@ -1,8 +1,7 @@
-from distutils.command.upload import upload
 from django.db import models
 
 class Baner(models.Model):
-    baner = models.ImageField("baner", upload_to='baner/')
+    baner = models.FileField("baner", upload_to='baner/')
     baner_title = models.CharField("title", max_length=250)
 
 

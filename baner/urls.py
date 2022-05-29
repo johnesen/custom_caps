@@ -3,5 +3,5 @@ from .views import *
 
 
 urlpatterns = [
-    path('baners/', BanerListView.as_view()),
+    path('', BanerListView.as_view()),
 ]

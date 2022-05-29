@@ -12,16 +12,23 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   caps_back:
-  container_name: custom_caps
-    build: .
+    container_name: caps
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
     command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic
         --no-input && gunicorn -b 0.0.0.0:8003 customcaps.wsgi --reload"
+    env_file:
+      - .env
     volumes:
       - .:/app
       - ./static:/static
     ports:
       - "8003:8003"
     depends_on:
+      - caps_db
+    links:
       - caps_db
 
   # nginx:
