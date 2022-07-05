@@ -72,11 +72,11 @@ class CapsImage(models.Model):
         verbose_name_plural = "Фотографии кепок"
 
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.photo_ = deepcopy(self.photo)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.photo_ = deepcopy(self.photo)
 
-    def save(self, *args, **kwargs):
-        if self.photo and self.photo != self.photo_:
-            self.photo = compress_image(self.photo, is_medium_thumbnail=True, quality=80)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if self.photo and self.photo != self.photo_:
+    #         self.photo = compress_image(self.photo, is_medium_thumbnail=True, quality=80)
+    #     super().save(*args, **kwargs)
